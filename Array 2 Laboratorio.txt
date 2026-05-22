@@ -1,0 +1,42 @@
+/*
+Ejercicio 2:
+Escribir una función/método llamado productoDeArreglos que toma 2 arreglos de enteros
+del mismo tamaño y devuelve un nuevo arreglo del mismo tamaño que el de los de entrada. Si
+llamamos a al primer arreglo de entrada y b al segundo arreglo de entrada, los elementos del
+arreglo resultado deben ser generados por la siguiente fórmula: c[i] = a[i] * b[N – (i + 1)], donde
+llamamos N al tamaño de los arreglos.
+*/
+
+
+using System;
+
+int productoDeArreglos(int[] array1, int[] array2)
+{
+    if (array1.Length == array2.Length)
+    {
+        int[] array3 = new int[array2.Length];
+        for (int i = 0; i < array2.Length; i++)
+        {
+            array3[i] = array1[i] * array2[array2.Length - (i + 1)];
+            Console.WriteLine(array3[i]);
+        }
+
+
+    }
+    return 0;
+}
+int[] arreglo1 = new int[4];
+
+int[] arreglo2 = new int[4];
+
+arreglo1[0] = 1;
+arreglo1[1] = 6;
+arreglo1[2] = 2;
+arreglo1[3] = 9;
+
+arreglo2[0] = 4;
+arreglo2[1] = 8;
+arreglo2[2] = 5;
+arreglo2[3] = 3;
+
+productoDeArreglos(arreglo1, arreglo2);
