@@ -1,0 +1,53 @@
+/*
+Ejercicio 5:
+Escribir una función/método llamado intercalar que toma un arreglo de enteros y un
+entero. El arreglo de enteros contiene N + 1 posiciones. Sin embargo, sólo las primeras N
+posiciones contienen elementos. No importa el valor de la última posición y se puede
+sobrescribir. Los elementos de las primeras N posiciones del arreglo se encuentran
+ordenados ascendentemente. Se debe tomar el entero que se pasa como parámetro e
+intercalarlo de manera tal que luego de que se ejecuta el método los N + 1 elementos del
+arreglo se encuentren ordenados de manera ascendente. El método debe devolver el
+arreglo que toma como parámetro como resultado.
+Nota: se debe insertar el entero en la posición correcta en el arreglo. No se puede insertar el
+entero al final del arreglo y ordenar nuevamente el arreglo.
+*/
+
+using System;
+
+int busc;
+Console.WriteLine("Ingrese el numero a agregar");
+ int agg = Convert.ToInt32(Console.ReadLine());
+double intercalar(int[] array1)
+{
+    Array.Resize(ref array1, array1.Length + 1);
+    array1[array1.Length - 1] = agg;
+    int op = 0;
+    do
+    {
+        for (int i = 0; i < array1.Length - 1; i++)
+        {
+            if (array1[i] > array1[i + 1])
+            {
+                int aux = array1[i];
+                array1[i] = array1[i + 1];
+                array1[i + 1] = aux;
+            }
+        }
+        op++;
+    }
+    while (op != 100);
+    for (int i2=0; i2 < array1.Length-1; i2++ )
+    {
+        Console.WriteLine(array1[i2]);
+    }
+    Console.WriteLine(array1[array1.Length - 1]);
+    return 0;
+}
+int[] arreglo1 = new int[4];
+
+arreglo1[0] = 1;
+arreglo1[1] = 6;
+arreglo1[2] = 2;
+arreglo1[3] = 9;
+
+intercalar(arreglo1);
