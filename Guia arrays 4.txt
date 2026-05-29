@@ -1,0 +1,65 @@
+/*
+Ejercicio 4:
+Escribir una función/método llamado busquedaB que toma un arreglo de enteros ordenados
+de manera ascendente y un entero. El método debe buscar el entero en el arreglo de
+manera eficiente, aprovechando que los elementos del arreglo se encuentran ordenados de
+manera ascendente. Si el entero se encuentra entre los elementos del arreglo, el método
+debe devolver la posición en la que se encuentra, caso contrario debe devolver un valor que
+permita identificar a quien llama a la función/método que el entero no se encuentra en el
+arreglo.
+*/
+
+using System;
+
+int busc;
+Console.WriteLine("Ingrese el numero a buscar");
+busc = Convert.ToInt32(Console.ReadLine());
+double BusquedaB(int[] array1)
+{
+    for (int i = 0; i < array1.Length-1; i++)
+    {
+        if (array1[i] > array1[i + 1])
+        {
+            int aux = array1[i];
+            array1[i] = array1[i + 1];
+            array1[i + 1] = aux;
+        }
+    }
+    if (busc > array1[array1.Length - 1] / 2)
+    {
+        for (int i = (array1.Length - 1) / 2; i < array1.Length; i++)
+        {
+            if (array1[i] == busc)
+            {
+                Console.WriteLine($"el numero {busc} esta en la posicion {i} bucs 2");
+                return 0;
+            }
+        }
+        Console.WriteLine($"el numero {busc} no se encuentra en el array");
+        return 0;
+    }
+    else 
+    {
+        for (int i = 0; i < array1.Length; i++)
+        {
+            if (array1[i] == busc)
+            {
+                Console.WriteLine($"el numero {busc} esta en la posicion {i} busc1");
+                return 0;
+            }
+        }
+        Console.WriteLine($"el numero {busc} no se encuentra en el array");
+        return 0;
+    }
+
+}
+
+
+int[] arreglo1 = new int[4];
+
+arreglo1[0] = 1;
+arreglo1[1] = 6;
+arreglo1[2] = 2;
+arreglo1[3] = 9;
+
+BusquedaB(arreglo1);
