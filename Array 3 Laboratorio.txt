@@ -1,0 +1,30 @@
+/*
+Ejercicio 3:
+Escribir una función/método llamado reverso que toma un arreglo de enteros y devuelve un
+nuevo arreglo que contiene los elementos del arreglo original en orden inverso.
+*/
+using System;
+
+int reverso(int[] array1)
+{
+    int[] array2 = new int[4];
+    for (int i = array1.Length-1; i > -1; i--) 
+    {
+        array2[i] = array1[array1.Length - i - 1];
+    }
+    for (int i = 0; i < array2.Length; i++) 
+    {
+        Console.WriteLine(array2[i]);
+    }
+    return 0;
+}
+
+int[] arreglo1 = new int[4];
+
+arreglo1[0] = 1;
+arreglo1[1] = 6;
+arreglo1[2] = 2;
+arreglo1[3] = 9;
+
+
+reverso(arreglo1);
