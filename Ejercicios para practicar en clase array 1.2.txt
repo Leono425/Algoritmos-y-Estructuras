@@ -1,0 +1,33 @@
+/*1.2 Buscar el Mayor y el Menor:
+Dado un arreglo de 8 números enteros desordenados, implementa un algoritmo que encuentre cuál es el número mayor y cuál es el menor, imprimiendo ambos valores y sus respectivas posiciones (índices).
+Concepto clave: Condicionales dentro de un bucle y actualización de variables de control.*/
+
+int menor = 0;
+int indiceM = 0;
+int mayor = 0;
+int indiceMa = 0;
+int[] array = new int[8];
+array[0] = 6;
+array[1] = 2;
+array[2] = 1;
+array[3] = 7;
+array[4] = 5;
+array[5] = 8;
+array[6] = 3;
+array[7] = 4;
+
+for (int i = 0; i < array.Length; i++) 
+{
+    if (array[i] <= array[0] && array[i] <= array[1] && array[i] <= array[2] && array[i] <= array[3] && array[i] <= array[4] && array[i] <= array[5] && array[i] <= array[6] && array[i] <= array[7])
+    {
+        menor = array[i];
+        indiceM = i;
+    }
+    if (array[i] >= array[0] && array[i] >= array[1] && array[i] >= array[2] && array[i] >= array[3] && array[i] >= array[4] && array[i] >= array[5] && array[i] >= array[6] && array[i] >= array[7])
+    {
+        mayor = array[i];
+        indiceMa = i;
+    }
+}
+Console.WriteLine($"El menor numero es {menor} y se encuentra en el indice {indiceM}");
+Console.WriteLine($"El mayor numero es {mayor} y se encuentra en el indice {indiceMa}");
