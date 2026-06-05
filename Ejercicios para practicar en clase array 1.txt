@@ -1,0 +1,23 @@
+/*1 - Nivel "Básicos"1.1 Suma y Promedio:
+Crea un programa que inicialice un arreglo con 10 números enteros. Calcula y muestra en consola la suma de todos los elementos y su promedio.
+Concepto clave: Recorrido de arreglos con bucles (for o foreach).*/
+
+float Promedio = 0;
+int[] array = new int[10];
+array[0] = 1;
+array[1] = 2;
+array[2] = 3;
+array[3] = 4;
+array[4] = 5;
+array[5] = 6;
+array[6] = 7;
+array[7] = 8;
+array[8] = 9;
+array[9] = 10;
+
+for (int i = 0; i < array.Length; i++) 
+{
+    int temp = array[i];
+    Promedio = temp + Promedio;
+}
+Console.WriteLine($"La suma de todos los numeros es {Promedio} y su promedio es {Promedio/10}");
