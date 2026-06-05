@@ -1,0 +1,24 @@
+/*2.1-Invertir un Arreglo:
+Escribe un método que reciba un arreglo de cadenas de texto (por ejemplo, nombres) y lo invierta modificando el arreglo original sin crear uno nuevo para el resultado.
+Concepto clave: Intercambio de variables (swapping) y uso de dos índices simultáneos (inicio y fin).*/
+
+string[] array = new string[8];
+array[0] = "Juan";
+array[1] = "Lautaro";
+array[2] = "Mateo";
+array[3] = "Fabricio";
+array[4] = "Brian";
+array[5] = "Facundo";
+array[6] = "Luis";
+array[7] = "Fernando";
+
+(array[0], array[array.Length - 1]) = (array[array.Length - 1], array[0]);
+
+for (int i = 1; i < array.Length/2; i++)
+{
+    (array[i], array[array.Length - i - 1]) = (array[array.Length -i - 1], array[i]);
+}
+for (int i = 0; i < array.Length; i++)
+{
+    Console.WriteLine(array[i]);
+}
