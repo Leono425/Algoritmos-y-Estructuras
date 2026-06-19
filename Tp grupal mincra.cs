@@ -1,0 +1,120 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+namespace TPMinecraft
+{
+    class Program
+    {
+        string[,] Nombres = new string [3,9];
+        int[,] Cantidades = new int [3,9];
+        double[,] Durabilidades = new double [3,9];
+        static void Main(string[,] Nombre, int[,] Cantidad, double[,] Durabilidad)
+        {
+
+            bool salir = false;
+            int opcion = 0;
+            while (!salir)
+            {
+                Console.Clear();
+                Console.WriteLine("=== GESTOR DE INVENTARIO MINECRAFT ===");
+                Console.WriteLine("1. Registrar nuevo item");
+                Console.WriteLine("2. Mostrar todos los items del inventario");
+                Console.WriteLine("3. Calcular la durabilidad promedio general");
+                Console.WriteLine("4. Buscar un item por su nombre");
+                Console.WriteLine("5. Mostrar items que superen la durabilidad promedio");
+                Console.WriteLine("6. Mostrar el item con máxima y mínima durabilidad");
+                Console.WriteLine("7. Eliminar un item por su nombre");
+                Console.WriteLine("8. Salir del programa");
+                Console.Write("Seleccione una opción: ");
+
+                if (!int.TryParse(Console.ReadLine(), out opcion))
+                {
+                    Console.WriteLine("Por favor, ingrese un número válido. Presione una tecla para continuar...");
+                    Console.ReadKey();
+                    continue;
+                }
+                switch (opcion)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine("--- Registrar Nuevo Item ---");
+                        Console.WriteLine("Ingrese el nombre del objeto");
+                        string nombre = Console.ReadLine();
+                        Nombre[0, 0] = nombre;
+                        Console.WriteLine("Ingrese la cantidad del objeto");
+                        int cantidad = int.Parse(Console.ReadLine());
+                        Cantidad[0, 0] = cantidad;
+                        Console.WriteLine("Ingrese la durabilidad del objeto");
+                        double durabilidad = double.Parse(Console.ReadLine());
+                        Durabilidad[0, 0] = durabilidad;
+                        break;
+                    case 2:
+                        Console.Clear();
+                        Console.WriteLine("--- Items en el Inventario ---");
+                        foreach (ItemMinecraft p in inventario)
+                        {
+                            Console.WriteLine($"Nombre: {p.Nombre}, Cantidad: {p.Cantidad}, Durabilidad {p.Durabilidad}");
+                        }
+                        break;
+
+                    case 3:
+                        Console.Clear();
+                        Console.WriteLine("--- Durabilidad Promedio General ---");
+                        double aux = 0;
+                        int cont = 0;
+                        double DurabilidadP = 0;
+                        foreach (ItemMinecraft p in inventario)
+                        {
+                            aux = aux + p.Durabilidad;
+                            cont++;
+                            DurabilidadP = aux / cont;
+                            Console.WriteLine(DurabilidadP);
+
+                        }
+                        break;
+
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine("--- Buscar Item por Nombre ---");
+                        // TODO: Solicitar el nombre al usuario, buscarlo en la lista y mostrar sus datos si existe
+                        break;
+
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("--- Items que Superan la Durabilidad Promedio ---");
+                        // TODO: Calcular el promedio y mostrar solo los items cuya durabilidad sea mayor
+                        break;
+
+                    case 6:
+                        Console.Clear();
+                        Console.WriteLine("--- Item Máximo y Mínimo de Durabilidad ---");
+                        // TODO: Encontrar y mostrar el item con mayor 'Durabilidad' y el de menor 'Durabilidad'
+                        break;
+
+                    case 7:
+                        Console.Clear();
+                        Console.WriteLine("--- Eliminar Item por Nombre ---");
+                        // TODO: Solicitar el nombre del item a eliminar y quitarlo de la lista si se encuentra
+                        break;
+
+                    case 8:
+                        Console.Clear();
+                        Console.WriteLine("Saliendo del sistema...");
+                        salir = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción incorrecta. Intente de nuevo.");
+                        break;
+                }
+
+                if (opcion != 8)
+                {
+                    Console.WriteLine("\nPresione cualquier tecla para regresar al menú...");
+                    Console.ReadKey();
+                }
+            }
+        }
+    }
+}
