@@ -1,0 +1,26 @@
+int[,] matris = {
+    { 6, -4, 3},
+    { 1, 7, 10},
+    { 3, 45, 2}
+    };
+int maximo_elementoP(int[,] matriz)
+{
+    int aux = 0;
+    int columna = 0;
+    int fila = 0;
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            if (aux < matriz[i, j])
+            {
+                aux = matriz[i, j];
+                columna = j; 
+                fila = i;
+            }
+        }
+    }
+    Console.WriteLine($"la posición que contiene el máximo elemento de la matriz es: {fila} {columna}");
+    return columna;
+}
+maximo_elementoP(matris);
