@@ -1,0 +1,38 @@
+int[,] matris = {
+    { 6, -4, 3},
+    { 1, 7, 10},
+    { 7, 45, 2}
+    };
+int Buscar_elemento(int[,] matriz)
+{
+    int aux = 10;
+    int columna = 0;
+    int fila = 0;
+    int cont = 0;
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            if (aux == matriz[i, j])
+            {
+                aux = matriz[i, j];
+                columna = j;
+                fila = i;
+            }
+            else 
+            {
+                cont = cont + 1;
+            }
+        }
+    }
+    if (cont == matriz.Length)
+    {
+        Console.WriteLine($"El numero no esta en la matriz");
+    }
+    else
+    {
+        Console.WriteLine($"la posición de la matriz en la que se encuentra ese entero es: {fila} {columna}");
+    }
+    return 0;
+}
+Buscar_elemento(matris);
