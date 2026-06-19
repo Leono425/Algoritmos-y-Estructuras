@@ -1,0 +1,20 @@
+int[,] matris = {
+    { 5, -4, 2},
+    { 6, 7, 10},
+    { 3, 45, 2}
+    };
+int num = 0;
+int maximo_columna(int[,] matriz, int fila) 
+{
+    for (int j = 0; j < matriz.GetLength(1)-1; j++)
+    {
+        if (matriz[fila, j] > matriz[fila, j + 1])
+        {
+            int aux = matriz[fila, j];
+            matriz[fila, j] = matriz[fila, j + 1];
+            matriz[fila, j + 1] = aux;
+        }
+    }
+    return matriz[fila, matriz.GetLength(1) - 1];
+}
+Console.Write(maximo_columna(matris, num));
