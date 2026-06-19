@@ -4,7 +4,7 @@ int[,] matris = {
     { 3, 45, 2}
     };
 int num = 0;
-int maximo_columna(int[,] matriz, int columna)
+int maximo_fila(int[,] matriz, int columna)
 {
     for (int j = 0; j < matriz.GetLength(1) - 1; j++)
     {
@@ -17,4 +17,4 @@ int maximo_columna(int[,] matriz, int columna)
     }
     return matriz[matriz.GetLength(1) - 1, columna];
 }
-Console.Write(maximo_columna(matris, num));
+Console.Write(maximo_fila(matris, num));
