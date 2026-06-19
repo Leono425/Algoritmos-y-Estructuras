@@ -20,4 +20,4 @@ int maximo_elementoF(int[,] matriz)
     }
     return fila;
 }
-Console.Write(maximo_columna(matris));
+Console.Write(maximo_elementoF(matris));
