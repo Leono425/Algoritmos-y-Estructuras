@@ -1,0 +1,17 @@
+int[,] matris = {
+    { 1, 4},
+    { 6, 7},
+    };
+int sumar_matriz(int[,] matriz) 
+{
+    int suma = 0;
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            suma = suma + matriz[i, j];
+        }
+    }
+    return suma;
+}
+Console.Write(sumar_matriz(matris));
