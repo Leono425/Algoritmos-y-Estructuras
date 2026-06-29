@@ -1,0 +1,23 @@
+
+int[,] matris = {
+    { 6, -4 },
+    { 1, 7 }
+    }; 
+int producto_matriz(int[,] matriz)
+{
+    int aux = 0;
+    aux = matriz[0, 1];
+    matriz[0, 1] = matriz[1, 0];
+    matriz[1, 0] = aux;
+
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        Console.WriteLine();
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            Console.Write($"{matriz[i,j]} ");
+        }
+    }
+    return 0;
+}
+producto_matriz(matris);
