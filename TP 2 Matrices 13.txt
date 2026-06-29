@@ -8,9 +8,9 @@ int rotar_Derecha(int[,] matriz)
     Console.WriteLine(matriz.GetLength(0));
     int aux = 0;
 
-    for (int i = 0; i <3; i++)
+    for (int i = 0; i < matriz.GetLength(0); i++)
     {
-        for (int j = 2; j > 0; j--)
+        for (int j = matriz.GetLength(1)-1; j > 0; j--)
         {          
                 aux = matriz[i, j];
                 matriz[i, j] = matriz[i, j-1];
