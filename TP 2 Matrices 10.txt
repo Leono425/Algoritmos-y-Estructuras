@@ -1,0 +1,20 @@
+int[,] matris = {
+    { 6, -4, 3},
+    { 1, 7, 10},
+    { 7, 45, 2}
+    };
+int suma_columna(int[,] matriz)
+{
+    int aux = 0;
+    int columnaS = 0;
+    int Suma = 0;
+
+    for (int i = 0; i < matriz.GetLength(1); i++)
+    {
+        aux = matriz[i, columnaS];
+        Suma = Suma + aux;
+    }
+    Console.WriteLine(Suma);
+    return 0;
+}
+suma_columna(matris);
