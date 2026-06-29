@@ -1,0 +1,29 @@
+int[,] matris1 = {
+    { 6, 2},
+    { 1, 7},
+    };
+int[,] matris2 = {
+    { 3, -5},
+    { 2, 6},
+    };
+int producto_matriz(int[,] matriz1 , int[,] matriz2)
+{
+    int[,] matriz3 = new int[matriz1.GetLength(0), matriz2.GetLength(1)];
+    if (matriz1.GetLength(1) == matriz2.GetLength(0) )
+    {
+        matriz3[0, 0] = matriz1[0, 0] * matriz2[0, 0] + matriz1[0,1] * matriz2[1, 0];
+        matriz3[0, 1] = matriz1[0, 0] * matriz2[0, 1] + matriz1[0, 1] * matriz2[1, 1];
+        matriz3[1, 0] = matriz1[1, 0] * matriz2[0, 0] + matriz1[1, 1] * matriz2[1, 0];
+        matriz3[1, 1] = matriz1[1, 0] * matriz2[0, 1] + matriz1[1, 1] * matriz2[1, 1];
+    }
+    for (int i = 0; i < matriz3.GetLength(0); i++)
+    {
+        Console.WriteLine();
+        for (int j = 0; j < matriz3.GetLength(1); j++)
+        {
+            Console.Write($"{matriz3[i, j]} ");
+        }
+    }
+    return 0;
+}
+producto_matriz(matris1, matris2);
