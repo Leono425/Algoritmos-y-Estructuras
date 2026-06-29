@@ -1,0 +1,20 @@
+int[,] matris = {
+    { 6, -4, 3},
+    { 1, 7, 10},
+    { 7, 45, 2}
+    };
+int suma_fila(int[,] matriz)
+{
+    int aux = 0;
+    int filaS = 0;
+    int Suma = 0;
+
+    for (int j = 0; j < matriz.GetLength(1); j++)
+    {
+        aux = matriz[filaS, j];
+        Suma = Suma + aux;
+    }
+    Console.WriteLine(Suma);
+    return 0;
+}
+suma_fila(matris);
