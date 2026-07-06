@@ -1,0 +1,31 @@
+int[,] matris = {{1, 0, 3, 2, 4, 2, 3, 6},
+                 {2, 2, 2, 5, 8, 6, 4, 7},
+                 {3, 1, 4, 5, 3, 4, 6, 8},
+                 {4, 7, 9, 7, 8, 10, 8, 11}};
+                //V, L, M, M, J, V,  S, D 
+int[] arreglo = { 1000, 1200, 1300, 1020, 1320, 1052, 1235 };
+int diaDeMayorRendimientoFlota(int[,] matriz, int[] array)
+{
+    int aux = 0;
+    int mayor = 0;
+    int dia = 0;
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            if (j != 0)
+            {
+                aux = aux + matriz[i, j] * arreglo[j-1];
+                if (aux > mayor) 
+                {
+                    mayor = aux;
+                    dia = j;
+                }
+
+            }
+        }
+    }
+    Console.Write($"el dia con mayor rendimiento fue el {dia} con {mayor}");
+    return 0;
+}
+diaDeMayorRendimientoFlota(matris, arreglo);
