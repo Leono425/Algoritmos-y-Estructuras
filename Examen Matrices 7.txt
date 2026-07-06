@@ -1,0 +1,41 @@
+int[,] matris = {{1, 0, 3, 2, 4, 2, 3, 6},
+                 {2, 2, 2, 5, 8, 6, 4, 7},
+                 {3, 1, 4, 5, 3, 4, 6, 8},
+                 {4, 7, 9, 7, 8, 10, 8, 11}};
+                //V, L, M, M, J, V,  S, D 
+int[] arreglo = { 1000, 1200, 1300, 1020, 1320, 1052, 1235 };
+int fila = 1;
+int obtenerVehiculoMasEficiente(int[,] matriz, int[] array, int vehiculo)
+{
+    int aux = 0;
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            if (j != 0)
+            {
+                if (aux < matriz[i, j])
+                {
+                    aux = matriz[i, j];
+                }
+
+            }
+        }
+    }
+    for (int i = 0; i < matriz.GetLength(0); i++)
+    {
+        for (int j = 0; j < matriz.GetLength(1); j++)
+        {
+            if (j != 0)
+            {
+                if (aux == matriz[i, j])
+                {
+                    Console.Write($"El vehiculo que hizo mas entregas fue el {i} entregando {aux} pedidos el dia {j}");
+                }
+
+            }
+        }
+    }
+    return 0;
+}
+obtenerVehiculoMasEficiente(matris, arreglo, fila);
