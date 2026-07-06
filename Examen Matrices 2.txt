@@ -1,6 +1,6 @@
 int[] arreglo1 = { 4, 7, 2 };
 int[] arreglo2 = { 5, 9, 1 };
-int EnteroB = 1;
+
 int productoEscalar(int[] array1, int[] array2) 
 {
     int AUX = 0;
