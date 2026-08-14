@@ -1,6 +1,134 @@
-﻿Compilación iniciada a las 09:05...
-1>------ Operación Compilar iniciada: Proyecto: ConsoleApp1, configuración: Debug Any CPU ------
-1>Omitiendo analizadores para acelerar la compilación. Puede ejecutar los comandos "Build" o "Rebuild" para ejecutar los analizadores.
-1>ConsoleApp1 -> C:\Users\Redes-20\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\net8.0\ConsoleApp1.dll
-========== Compilación: 1 correcto, 0 erróneo, 0 actualizado, 0 omitido ==========
-========== Compilar completado a las 09:05 y tardó 00,262 segundos ==========
+using System;
+using static HelloWorld;
+class HelloWorld
+{
+    static int contador_Clientes = 1;
+
+    static void Contar()
+    {
+        contador_Clientes++;
+        Console.WriteLine(contador_Clientes);
+    }
+
+public struct Juegos
+    {
+        public int ID;
+        public string Nombre;
+        public int Stock;
+        public double Precio;
+    }
+
+    public struct Cliente
+    {
+        public int ID;
+        public int IDproductoDeseado;
+        public string Nombre;
+        public int Fila;
+    }
+    public static class Inventario
+    {
+        public static void Mostrar(Juegos[] catalogo)
+        {
+            Console.WriteLine("ID\t\tPRECIO\t\tSTOCK\t\tNOMBRE");
+            for (int i = 0; i < catalogo.Length; i++)
+            {
+                if (catalogo[i].ID == 0)
+                {
+
+                }
+                else 
+                {
+                    Console.WriteLine($"{catalogo[i].ID}\t\t{catalogo[i].Precio}\t\t{catalogo[i].Stock}\t\t{catalogo[i].Nombre}");
+                }
+            }
+        }
+        public static void CargarCatalogoInicial(Juegos[] catalogo, int agregar)
+        {
+            string nombre;
+            double precio;
+            int stock;
+            for (int i = 1; i < agregar + 1 ; i++)
+            {
+                Console.WriteLine($"Ingresa el nombre del juego numero {i}");
+                nombre = Console.ReadLine();
+                Console.WriteLine($"Ingresa el stock del juego numero {i}");
+                stock = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Ingresa el precio del juego numero {i}");
+                precio = double.Parse(Console.ReadLine());
+                catalogo[i] = new Juegos { ID = i, Nombre = nombre, Stock = stock, Precio = precio };
+            }
+        }
+        public static void CargarCliente(Cliente[] Clientes, int contador_Clientes)
+        {
+            string nombre;
+            int idproductoDeseado;
+
+                Console.WriteLine($"Ingresa el nombre del cliente numero {contador_Clientes}");
+                nombre = Console.ReadLine();
+                Console.WriteLine($"Ingresa el juego comprado por el cliente numero {contador_Clientes}");
+                idproductoDeseado = int.Parse(Console.ReadLine());
+                Clientes[contador_Clientes] = new Cliente { ID = contador_Clientes, Nombre = nombre, IDproductoDeseado = idproductoDeseado, Fila = contador_Clientes };
+                Queue<string> fila_C = new Queue<string>();
+                fila_C.Enqueue(nombre);
+                Contar();
+            
+        }
+        public static void MostrarClientes(Cliente[] Clientes)
+        {
+            Console.WriteLine("ID\t\tIDproductoDeseado\t\tNOMBRE\t\tFILA");
+            for (int i = 0; i < Clientes.Length; i++)
+            {
+                if (Clientes[i].ID == 0)
+                {
+
+                }
+                else
+                {
+                    Console.WriteLine($"{Clientes[i].ID}\t\t{Clientes[i].IDproductoDeseado}\t\t{Clientes[i].Nombre}\t\t{Clientes[i].Nombre}");
+                }
+            }
+            opciones();
+        }
+    }
+
+    static void Main()
+    {
+        Console.WriteLine("¿Cuantas estanterias tiene?");
+        int Estanterias = int.Parse(Console.ReadLine());
+        Console.WriteLine("¿Cuantos juegos pueden estar en una estanteria??");
+        int Espacio_E = int.Parse(Console.ReadLine());
+
+        Juegos[] catalogo = new Juegos[Estanterias * Espacio_E];
+
+        Console.WriteLine($"¿Cuantos juegos quiere agregar? puede agregar hasta {Estanterias * Espacio_E} juegos");
+        int agregar = int.Parse(Console.ReadLine());
+
+        Inventario.CargarCatalogoInicial(catalogo, agregar);
+        opciones();
+    }
+    public static void opciones()
+    {
+        Cliente[] Clientes = new Cliente[6];
+        Console.WriteLine("elige una de las siguientes opciones");
+        int opcion = int.Parse(Console.ReadLine());
+
+        switch (opcion)
+        {
+            case 1:
+                Inventario.CargarCliente(Clientes, contador_Clientes);
+                break; // Es obligatorio para salir del switch
+            case 2:
+                Console.WriteLine("Cargando configuración...");
+                break;
+            case 3:
+                Console.WriteLine("Saliendo del programa...");
+                break;
+            default: // Se ejecuta si no coincide con ninguno de los anteriores
+                Console.WriteLine("Opción no válida.");
+                break;
+        }
+
+    }
+
+
+}
