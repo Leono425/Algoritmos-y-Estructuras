@@ -1,16 +1,17 @@
 using System;
+using System.Collections.Generic;
 using static HelloWorld;
+
 class HelloWorld
 {
-    static int contador_Clientes = 1;
+    static int contador_Clientes = 0;
+    static int contador_Juegos = 0;
 
-    static void Contar()
-    {
-        contador_Clientes++;
-        Console.WriteLine(contador_Clientes);
-    }
+    static Cliente[] Clientes = new Cliente[6];
 
-public struct Juegos
+    static Queue<Cliente> filaClientes = new Queue<Cliente>();
+
+    public struct Juegos
     {
         public int ID;
         public string Nombre;
@@ -25,69 +26,155 @@ public struct Juegos
         public string Nombre;
         public int Fila;
     }
+
     public static class Inventario
     {
+        public static void CargarJuego(Juegos[] catalogo)
+        {
+            if (contador_Juegos >= catalogo.Length)
+            {
+                Console.WriteLine("No hay espacio para agregar mas juegos.");
+                return;
+            }
+
+            string nombre;
+            int stock;
+            double precio;
+
+            Console.WriteLine($"Ingresa el nombre del juego numero {contador_Juegos + 1}");
+            nombre = Console.ReadLine();
+
+            Console.WriteLine($"Ingresa el stock del juego numero {contador_Juegos + 1}");
+            stock = int.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Ingresa el precio del juego numero {contador_Juegos + 1}");
+            precio = double.Parse(Console.ReadLine());
+
+            catalogo[contador_Juegos] = new Juegos
+            {
+                ID = contador_Juegos + 1,
+                Nombre = nombre,
+                Stock = stock,
+                Precio = precio
+            };
+
+            contador_Juegos++;
+
+            Console.WriteLine("Juego agregado correctamente.");
+        }
+
         public static void Mostrar(Juegos[] catalogo)
         {
             Console.WriteLine("ID\t\tPRECIO\t\tSTOCK\t\tNOMBRE");
-            for (int i = 0; i < catalogo.Length; i++)
-            {
-                if (catalogo[i].ID == 0)
-                {
 
-                }
-                else 
-                {
-                    Console.WriteLine($"{catalogo[i].ID}\t\t{catalogo[i].Precio}\t\t{catalogo[i].Stock}\t\t{catalogo[i].Nombre}");
-                }
-            }
-        }
-        public static void CargarCatalogoInicial(Juegos[] catalogo, int agregar)
-        {
-            string nombre;
-            double precio;
-            int stock;
-            for (int i = 1; i < agregar + 1 ; i++)
+            for (int i = 0; i < contador_Juegos; i++)
             {
-                Console.WriteLine($"Ingresa el nombre del juego numero {i}");
-                nombre = Console.ReadLine();
-                Console.WriteLine($"Ingresa el stock del juego numero {i}");
-                stock = int.Parse(Console.ReadLine());
-                Console.WriteLine($"Ingresa el precio del juego numero {i}");
-                precio = double.Parse(Console.ReadLine());
-                catalogo[i] = new Juegos { ID = i, Nombre = nombre, Stock = stock, Precio = precio };
+                Console.WriteLine(
+                    $"{catalogo[i].ID}\t\t{catalogo[i].Precio}\t\t{catalogo[i].Stock}\t\t{catalogo[i].Nombre}"
+                );
             }
         }
-        public static void CargarCliente(Cliente[] Clientes, int contador_Clientes)
+
+        public static void CargarCliente()
         {
+            if (contador_Clientes >= Clientes.Length)
+            {
+                Console.WriteLine("No hay espacio para agregar mas clientes.");
+                return;
+            }
+
             string nombre;
             int idproductoDeseado;
 
-                Console.WriteLine($"Ingresa el nombre del cliente numero {contador_Clientes}");
-                nombre = Console.ReadLine();
-                Console.WriteLine($"Ingresa el juego comprado por el cliente numero {contador_Clientes}");
-                idproductoDeseado = int.Parse(Console.ReadLine());
-                Clientes[contador_Clientes] = new Cliente { ID = contador_Clientes, Nombre = nombre, IDproductoDeseado = idproductoDeseado, Fila = contador_Clientes };
-                Queue<string> fila_C = new Queue<string>();
-                fila_C.Enqueue(nombre);
-                Contar();
-            
+            Console.WriteLine($"Ingresa el nombre del cliente numero {contador_Clientes + 1}");
+            nombre = Console.ReadLine();
+
+            Console.WriteLine($"Ingresa el juego comprado por el cliente numero {contador_Clientes + 1}");
+            idproductoDeseado = int.Parse(Console.ReadLine());
+
+            Clientes[contador_Clientes] = new Cliente
+            {
+                ID = contador_Clientes + 1,
+                Nombre = nombre,
+                IDproductoDeseado = idproductoDeseado,
+                Fila = contador_Clientes + 1
+            };
+
+            filaClientes.Enqueue(Clientes[contador_Clientes]);
+
+            contador_Clientes++;
+
+            Console.WriteLine("Cliente agregado correctamente.");
+            Console.WriteLine("El cliente fue agregado a la fila.");
         }
-        public static void MostrarClientes(Cliente[] Clientes)
+
+        public static void MostrarClientes()
         {
             Console.WriteLine("ID\t\tIDproductoDeseado\t\tNOMBRE\t\tFILA");
-            for (int i = 0; i < Clientes.Length; i++)
-            {
-                if (Clientes[i].ID == 0)
-                {
 
-                }
-                else
-                {
-                    Console.WriteLine($"{Clientes[i].ID}\t\t{Clientes[i].IDproductoDeseado}\t\t{Clientes[i].Nombre}\t\t{Clientes[i].Nombre}");
-                }
+            for (int i = 0; i < contador_Clientes; i++)
+            {
+                Console.WriteLine(
+                    $"{Clientes[i].ID}\t\t{Clientes[i].IDproductoDeseado}\t\t{Clientes[i].Nombre}\t\t{Clientes[i].Fila}"
+                );
             }
-            opciones();
+        }
+
+        public static void AtenderCliente()
+        {
+            if (filaClientes.Count == 0)
+            {
+                Console.WriteLine("No hay clientes para atender.");
+                return;
+            }
+
+            Cliente clienteAtendido = filaClientes.Dequeue();
+
+            Console.WriteLine("--- CLIENTE ATENDIDO ---");
+            Console.WriteLine($"ID: {clienteAtendido.ID}");
+            Console.WriteLine($"Nombre: {clienteAtendido.Nombre}");
+            Console.WriteLine($"Juego deseado: {clienteAtendido.IDproductoDeseado}");
+
+            Queue<Cliente> nuevaFila = new Queue<Cliente>();
+
+            int posicion = 1;
+
+            foreach (Cliente cliente in filaClientes)
+            {
+                Cliente clienteActualizado = cliente;
+
+                clienteActualizado.Fila = posicion;
+
+                nuevaFila.Enqueue(clienteActualizado);
+
+                posicion++;
+            }
+
+            filaClientes = nuevaFila;
+
+            Console.WriteLine("Cliente atendido correctamente.");
+        }
+
+        public static void MostrarFila()
+        {
+            if (filaClientes.Count == 0)
+            {
+                Console.WriteLine("La fila esta vacia.");
+                return;
+            }
+
+            Console.WriteLine("--- FILA DE CLIENTES ---");
+
+            int posicion = 1;
+
+            foreach (Cliente cliente in filaClientes)
+            {
+                Console.WriteLine(
+                    $"Posicion: {posicion} | ID: {cliente.ID} | Nombre: {cliente.Nombre} | Juego: {cliente.IDproductoDeseado}"
+                );
+
+                posicion++;
+            }
         }
     }
 
@@ -95,40 +182,69 @@ public struct Juegos
     {
         Console.WriteLine("¿Cuantas estanterias tiene?");
         int Estanterias = int.Parse(Console.ReadLine());
-        Console.WriteLine("¿Cuantos juegos pueden estar en una estanteria??");
+
+        Console.WriteLine("¿Cuantos juegos pueden estar en una estanteria?");
         int Espacio_E = int.Parse(Console.ReadLine());
 
         Juegos[] catalogo = new Juegos[Estanterias * Espacio_E];
 
-        Console.WriteLine($"¿Cuantos juegos quiere agregar? puede agregar hasta {Estanterias * Espacio_E} juegos");
-        int agregar = int.Parse(Console.ReadLine());
-
-        Inventario.CargarCatalogoInicial(catalogo, agregar);
-        opciones();
+        opciones(catalogo);
     }
-    public static void opciones()
+
+    public static void opciones(Juegos[] catalogo)
     {
-        Cliente[] Clientes = new Cliente[6];
-        Console.WriteLine("elige una de las siguientes opciones");
-        int opcion = int.Parse(Console.ReadLine());
+        int opcion;
 
-        switch (opcion)
+        do
         {
-            case 1:
-                Inventario.CargarCliente(Clientes, contador_Clientes);
-                break; // Es obligatorio para salir del switch
-            case 2:
-                Console.WriteLine("Cargando configuración...");
-                break;
-            case 3:
-                Console.WriteLine("Saliendo del programa...");
-                break;
-            default: // Se ejecuta si no coincide con ninguno de los anteriores
-                Console.WriteLine("Opción no válida.");
-                break;
-        }
+            Console.WriteLine("======================");
+            Console.WriteLine("1. Agregar juego");
+            Console.WriteLine("2. Mostrar juegos");
+            Console.WriteLine("3. Agregar cliente");
+            Console.WriteLine("4. Mostrar clientes");
+            Console.WriteLine("5. Atender cliente");
+            Console.WriteLine("6. Mostrar fila");
+            Console.WriteLine("7. Salir");
+            Console.WriteLine("======================");
 
+            Console.Write("Elige una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            switch (opcion)
+            {
+                case 1:
+                    Inventario.CargarJuego(catalogo);
+                    break;
+
+                case 2:
+                    Inventario.Mostrar(catalogo);
+                    break;
+
+                case 3:
+                    Inventario.CargarCliente();
+                    break;
+
+                case 4:
+                    Inventario.MostrarClientes();
+                    break;
+
+                case 5:
+                    Inventario.AtenderCliente();
+                    break;
+
+                case 6:
+                    Inventario.MostrarFila();
+                    break;
+
+                case 7:
+                    Console.WriteLine("Saliendo del programa...");
+                    break;
+
+                default:
+                    Console.WriteLine("Opcion no valida.");
+                    break;
+            }
+
+        } while (opcion != 7);
     }
-
-
 }
