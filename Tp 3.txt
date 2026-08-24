@@ -1,15 +1,9 @@
 using System;
 using System.Collections.Generic;
-using static HelloWorld;
 
 class HelloWorld
 {
-    static int contador_Clientes = 0;
     static int contador_Juegos = 0;
-
-    static Cliente[] Clientes = new Cliente[6];
-
-    static Queue<Cliente> filaClientes = new Queue<Cliente>();
 
     public struct Juegos
     {
@@ -65,6 +59,12 @@ class HelloWorld
 
         public static void Mostrar(Juegos[] catalogo)
         {
+            if (contador_Juegos == 0)
+            {
+                Console.WriteLine("No hay juegos cargados.");
+                return;
+            }
+
             Console.WriteLine("ID\t\tPRECIO\t\tSTOCK\t\tNOMBRE");
 
             for (int i = 0; i < contador_Juegos; i++)
@@ -74,6 +74,15 @@ class HelloWorld
                 );
             }
         }
+    }
+
+    public static class Tienda
+    {
+        static int contador_Clientes = 0;
+
+        static Cliente[] Clientes = new Cliente[6];
+
+        static Queue<Cliente> filaClientes = new Queue<Cliente>();
 
         public static void CargarCliente()
         {
@@ -86,10 +95,16 @@ class HelloWorld
             string nombre;
             int idproductoDeseado;
 
-            Console.WriteLine($"Ingresa el nombre del cliente numero {contador_Clientes + 1}");
+            Console.WriteLine(
+                $"Ingresa el nombre del cliente numero {contador_Clientes + 1}"
+            );
+
             nombre = Console.ReadLine();
 
-            Console.WriteLine($"Ingresa el juego comprado por el cliente numero {contador_Clientes + 1}");
+            Console.WriteLine(
+                $"Ingresa el ID del juego comprado por el cliente numero {contador_Clientes + 1}"
+            );
+
             idproductoDeseado = int.Parse(Console.ReadLine());
 
             Clientes[contador_Clientes] = new Cliente
@@ -110,12 +125,20 @@ class HelloWorld
 
         public static void MostrarClientes()
         {
-            Console.WriteLine("ID\t\tIDproductoDeseado\t\tNOMBRE\t\tFILA");
+            if (contador_Clientes == 0)
+            {
+                Console.WriteLine("No hay clientes cargados.");
+                return;
+            }
+
+            Console.WriteLine(
+                "ID\t\tIDproductoDeseado\t\tNOMBRE\t\tFILA"
+            );
 
             for (int i = 0; i < contador_Clientes; i++)
             {
                 Console.WriteLine(
-                    $"{Clientes[i].ID}\t\t{Clientes[i].IDproductoDeseado}\t\t{Clientes[i].Nombre}\t\t{Clientes[i].Fila}"
+                    $"{Clientes[i].ID}\t\t{Clientes[i].IDproductoDeseado}\t\t\t{Clientes[i].Nombre}\t\t{Clientes[i].Fila}"
                 );
             }
         }
@@ -133,7 +156,9 @@ class HelloWorld
             Console.WriteLine("--- CLIENTE ATENDIDO ---");
             Console.WriteLine($"ID: {clienteAtendido.ID}");
             Console.WriteLine($"Nombre: {clienteAtendido.Nombre}");
-            Console.WriteLine($"Juego deseado: {clienteAtendido.IDproductoDeseado}");
+            Console.WriteLine(
+                $"Juego deseado: {clienteAtendido.IDproductoDeseado}"
+            );
 
             Queue<Cliente> nuevaFila = new Queue<Cliente>();
 
@@ -188,10 +213,10 @@ class HelloWorld
 
         Juegos[] catalogo = new Juegos[Estanterias * Espacio_E];
 
-        opciones(catalogo);
+        Opciones(catalogo);
     }
 
-    public static void opciones(Juegos[] catalogo)
+    public static void Opciones(Juegos[] catalogo)
     {
         int opcion;
 
@@ -221,19 +246,19 @@ class HelloWorld
                     break;
 
                 case 3:
-                    Inventario.CargarCliente();
+                    Tienda.CargarCliente();
                     break;
 
                 case 4:
-                    Inventario.MostrarClientes();
+                    Tienda.MostrarClientes();
                     break;
 
                 case 5:
-                    Inventario.AtenderCliente();
+                    Tienda.AtenderCliente();
                     break;
 
                 case 6:
-                    Inventario.MostrarFila();
+                    Tienda.MostrarFila();
                     break;
 
                 case 7:
@@ -244,6 +269,10 @@ class HelloWorld
                     Console.WriteLine("Opcion no valida.");
                     break;
             }
+
+        } while (opcion != 7);
+    }
+}
 
         } while (opcion != 7);
     }
