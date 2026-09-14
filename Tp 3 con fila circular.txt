@@ -1,0 +1,304 @@
+class HelloWorld
+{
+    static int capacidad = 5;
+    static int[] cola = new int[capacidad];
+    static int frente = -1;
+    static int final = -1;
+    static int elementos = 0;
+    static int contador_Juegos = 0;
+    static void encolar(string nombre,int valor)
+    { //enqueue. Agregaba a la cola un elemnto
+        if (elementos == capacidad)
+        {
+            Console.WriteLine("La cola está llena.");
+            return;
+        }
+        if (frente == -1)
+        {
+            frente = 0;
+        }
+        final = (final + 1) % capacidad;
+        cola[final] = valor;
+        elementos++; //Sumar elementos en 1
+        Console.WriteLine($"Encolado:{nombre}  {valor}");
+    }
+
+    // Función para desencolar (quitar)
+    static void desencolar()
+    { //dequeue.
+        if (elementos == 0)
+        {
+            Console.WriteLine("La cola está vacía.");
+            return;
+        }
+        Console.WriteLine($"Desencolado: {cola[frente]}");
+        frente = (frente + 1) % capacidad;
+        elementos--;
+        if (elementos == 0)
+        {
+            frente = -1;
+            final = -1;
+        }
+    }
+ 
+    public struct Juegos
+    {
+        public int ID;
+        public string Nombre;
+        public int Stock;
+        public double Precio;
+    }
+
+    public struct Cliente
+    {
+        public int ID;
+        public int IDproductoDeseado;
+        public string Nombre;
+        public int Fila;
+    }
+
+
+    public static class Inventario
+    {
+        public static void CargarJuego(Juegos[] catalogo)
+        {
+            if (contador_Juegos >= catalogo.Length)
+            {
+                Console.WriteLine("No hay espacio para agregar mas juegos.");
+                return;
+            }
+
+            string nombre;
+            int stock;
+            double precio;
+
+            Console.WriteLine($"Ingresa el nombre del juego numero {contador_Juegos + 1}");
+            nombre = Console.ReadLine();
+
+            Console.WriteLine($"Ingresa el stock del juego numero {contador_Juegos + 1}");
+            stock = int.Parse(Console.ReadLine());
+
+            Console.WriteLine($"Ingresa el precio del juego numero {contador_Juegos + 1}");
+            precio = double.Parse(Console.ReadLine());
+
+            catalogo[contador_Juegos] = new Juegos
+            {
+                ID = contador_Juegos + 1,
+                Nombre = nombre,
+                Stock = stock,
+                Precio = precio
+            };
+
+            contador_Juegos++;
+
+            Console.WriteLine("Juego agregado correctamente.");
+        }
+
+        public static void Mostrar(Juegos[] catalogo)
+        {
+            if (contador_Juegos == 0)
+            {
+                Console.WriteLine("No hay juegos cargados.");
+                return;
+            }
+
+            Console.WriteLine("ID\t\tPRECIO\t\tSTOCK\t\tNOMBRE");
+
+            for (int i = 0; i < contador_Juegos; i++)
+            {
+                Console.WriteLine(
+                    $"{catalogo[i].ID}\t\t{catalogo[i].Precio}\t\t{catalogo[i].Stock}\t\t{catalogo[i].Nombre}"
+                );
+            }
+        }
+    }
+
+    public static class Tienda
+    {
+        // Contador de clientes en el array Clientes (evita sombrear la variable global 'elementos')
+        static int clientesCount = 0;
+
+        static Cliente[] Clientes = new Cliente[6];
+
+        public static void CargarCliente()
+        {
+            if (clientesCount >= Clientes.Length)
+            {
+                Console.WriteLine("No hay espacio para agregar mas clientes.");
+                return;
+            }
+
+            string nombre;
+            int idproductoDeseado;
+
+            Console.WriteLine(
+                $"Ingresa el nombre del cliente numero {clientesCount + 1}"
+            );
+
+            nombre = Console.ReadLine();
+
+            Console.WriteLine(
+                $"Ingresa el ID del juego comprado por el cliente numero {clientesCount + 1}"
+            );
+
+            idproductoDeseado = int.Parse(Console.ReadLine());
+
+            Clientes[clientesCount] = new Cliente
+            {
+                ID = clientesCount + 1,
+                Nombre = nombre,
+                IDproductoDeseado = idproductoDeseado,
+                Fila = clientesCount + 1
+            };
+
+            // Uso de la cola circular existente (encolar) en lugar de Queue.Enqueue
+            encolar(nombre, clientesCount);
+
+            // Incrementar el contador local de clientes en el array
+            clientesCount++;
+
+            Console.WriteLine("Cliente agregado correctamente.");
+            Console.WriteLine("El cliente fue agregado a la fila.");
+        }
+
+        public static void MostrarClientes()
+        {
+            if (elementos == 0)
+            {
+                Console.WriteLine("No hay clientes cargados.");
+                return;
+            }
+
+            // Recorremos la cola circular desde 'frente' para mostrar clientes en orden
+            for (int i = 0; i < elementos; i++)
+            {
+                int pos = (frente + i) % capacidad;
+                int clienteIdx = cola[pos];
+                Cliente c = Clientes[clienteIdx];
+                Console.WriteLine($"Posicion: {i + 1} | ID: {c.ID} | Nombre: {c.Nombre} | Juego: {c.IDproductoDeseado}");
+            }
+        }
+
+        public static void AtenderCliente()
+        {
+            if (elementos == 0)
+            {
+                Console.WriteLine("No hay clientes para atender.");
+                return;
+            }
+
+            // Obtener índice del cliente en la cola circular
+            int clienteIdx = cola[frente];
+            Cliente clienteAtendido = Clientes[clienteIdx];
+
+            Console.WriteLine("--- CLIENTE ATENDIDO ---");
+            Console.WriteLine($"ID: {clienteAtendido.ID}");
+            Console.WriteLine($"Nombre: {clienteAtendido.Nombre}");
+            Console.WriteLine($"Juego deseado: {clienteAtendido.IDproductoDeseado}");
+
+            // Quitarlo de la cola circular
+            desencolar();
+
+            // Actualizar posiciones (Fila) de los clientes restantes
+            for (int i = 0; i < elementos; i++)
+            {
+                int pos = (frente + i) % capacidad;
+                int idx = cola[pos];
+                Cliente updated = Clientes[idx];
+                updated.Fila = i + 1;
+                Clientes[idx] = updated;
+            }
+
+            Console.WriteLine("Cliente atendido correctamente.");
+        }
+
+        public static void MostrarFila()
+        {
+            if (elementos == 0)
+            {
+                Console.WriteLine("La fila esta vacia.");
+                return;
+            }
+
+            Console.WriteLine("--- FILA DE CLIENTES ---");
+
+            for (int i = 0; i < elementos; i++)
+            {
+                int pos = (frente + i) % capacidad;
+                int idx = cola[pos];
+                Cliente c = Clientes[idx];
+                Console.WriteLine($"Posicion: {i + 1} | ID: {c.ID} | Nombre: {c.Nombre} | Juego: {c.IDproductoDeseado}");
+            }
+        }
+    }
+
+    static void Main()
+    {
+        Console.WriteLine("¿Cuantas estanterias tiene?");
+        int Estanterias = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("¿Cuantos juegos pueden estar en una estanteria?");
+        int Espacio_E = int.Parse(Console.ReadLine());
+
+        Juegos[] catalogo = new Juegos[Estanterias * Espacio_E];
+
+        Opciones(catalogo);
+    }
+
+    public static void Opciones(Juegos[] catalogo)
+    {
+        int opcion;
+
+        do
+        {
+            Console.WriteLine("======================");
+            Console.WriteLine("1. Agregar juego");
+            Console.WriteLine("2. Mostrar juegos");
+            Console.WriteLine("3. Agregar cliente");
+            Console.WriteLine("4. Mostrar clientes");
+            Console.WriteLine("5. Atender cliente");
+            Console.WriteLine("6. Mostrar fila");
+            Console.WriteLine("7. Salir");
+            Console.WriteLine("======================");
+
+            Console.Write("Elige una opcion: ");
+            opcion = int.Parse(Console.ReadLine());
+
+            switch (opcion)
+            {
+                case 1:
+                    Inventario.CargarJuego(catalogo);
+                    break;
+
+                case 2:
+                    Inventario.Mostrar(catalogo);
+                    break;
+
+                case 3:
+                    Tienda.CargarCliente();
+                    break;
+
+                case 4:
+                    Tienda.MostrarClientes();
+                    break;
+
+                case 5:
+                    Tienda.AtenderCliente();
+                    break;
+
+                case 6:
+                    Tienda.MostrarFila();
+                    break;
+
+                case 7:
+                    Console.WriteLine("Saliendo del programa...");
+                    break;
+
+                default:
+                    Console.WriteLine("Opcion no valida.");
+                    break;
+            }
+
+        } while (opcion != 7);
+    }
+}
