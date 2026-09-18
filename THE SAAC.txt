@@ -1,0 +1,90 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+namespace Project1
+{
+    public class Game1 : Game
+    {
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private Texture2D the_saac, hola;
+        private Vector2 the_saacPosition;
+        private const float MOVEMENT_SPEED = 5.0f;
+        public Game1()
+        {
+             _graphics = new GraphicsDeviceManager(this);
+             Content.RootDirectory = "Content";
+        }
+
+        protected override void Initialize()
+        {
+            // TODO: Add your initialization logic here
+
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            the_saac = Content.Load<Texture2D>("imagenes/images");
+
+            // TODO: use this.Content to load your game content here
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            float speed = MOVEMENT_SPEED;
+
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            // Check if the space key is down.
+            if (keyboardState.IsKeyDown(Keys.W))
+            {
+                the_saacPosition.Y -= speed;
+            }
+            if (keyboardState.IsKeyDown(Keys.S))
+            {
+                the_saacPosition.Y += speed;
+            }
+            if (keyboardState.IsKeyDown(Keys.D))
+            {
+                the_saacPosition.X += speed;
+            }
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                the_saacPosition.X -= speed;
+            }
+
+            // TODO: Add your update logic here
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            // Dibuja la textura del logo
+            _spriteBatch.Draw(
+                the_saac, 
+                the_saacPosition,
+                null,               // sourceRectangle
+                Color.White,        // color
+                0.0f,               // rotation
+                Vector2.Zero,       // origin
+                0.5f,               // scale
+                SpriteEffects.None, // effects
+                0.0f                // layerDepth
+            );
+            _spriteBatch.End(); 
+
+            // TODO: Add your drawing code here
+
+            base.Draw(gameTime);
+        }
+    }
+}
